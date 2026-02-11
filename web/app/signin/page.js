@@ -60,6 +60,8 @@ export default function SignInPage() {
         localStorage.removeItem('profilePhoto');
       }
 
+      window.dispatchEvent(new Event('auth-change'));
+
       // Redirect to dashboard
       router.push('/dashboard');
     } catch (err) {

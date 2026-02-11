@@ -5,8 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Cpu, Menu, X, LogOut } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-const NAV_LINKS = [{ label: 'Home', href: '/' }];
-
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -116,8 +114,6 @@ export function Navbar() {
     { label: 'Settings', href: '/settings' },
   ];
 
-  const visibleNavLinks = auth.isLoggedIn ? [] : NAV_LINKS;
-
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="container mx-auto px-4">
@@ -130,16 +126,6 @@ export function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-6">
-            {visibleNavLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-
             {auth.isLoggedIn ? (
               <div className="relative" ref={dropdownRef}>
                 <button
@@ -206,18 +192,6 @@ export function Navbar() {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t">
             <div className="flex flex-col gap-3">
-              {!auth.isLoggedIn &&
-                NAV_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-
               {auth.isLoggedIn ? (
                 <>
                   <Link

@@ -95,6 +95,8 @@ export default function VerifyOTPPage() {
       }
       localStorage.setItem('onboarded', result.data.onboarded ? 'true' : 'false');
 
+      window.dispatchEvent(new Event('auth-change'));
+
       // Clear pending verification
       localStorage.removeItem('pendingVerificationEmail');
 

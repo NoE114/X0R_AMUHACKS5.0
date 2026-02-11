@@ -90,18 +90,18 @@ export default function LandingPage() {
   const testimonials = [
     {
       quote: "This app has saved me so much mental energy every morning. No more staring into the fridge wondering what to eat!",
-      author: "Sarah M.",
-      role: "Product Manager"
+      author: "Nrd (Nataraj Das)",
+      role: "Student"
     },
     {
       quote: "The AI recommendations are surprisingly accurate. It feels like the app actually knows my preferences.",
-      author: "James K.",
-      role: "Software Developer"
+      author: "Mr Cat (Gopal Paul)",
+      role: "Student Developer"
     },
     {
       quote: "I was skeptical at first, but now I can't imagine my day without it. Highly recommend!",
-      author: "Emily R.",
-      role: "Designer"
+      author: "Peaush Paul",
+      role: "Student"
     }
   ];
 
@@ -157,15 +157,15 @@ export default function LandingPage() {
             {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto">
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary">10K+</div>
+                <div className="text-3xl md:text-4xl font-bold text-primary">100</div>
                 <div className="text-sm text-muted-foreground mt-1">Active Users</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary">50K+</div>
+                <div className="text-3xl md:text-4xl font-bold text-primary">1K+</div>
                 <div className="text-sm text-muted-foreground mt-1">Decisions Made</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary">95%</div>
+                <div className="text-3xl md:text-4xl font-bold text-primary">90%</div>
                 <div className="text-sm text-muted-foreground mt-1">Satisfaction</div>
               </div>
             </div>

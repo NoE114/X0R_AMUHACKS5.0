@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Cpu, Github, Heart } from 'lucide-react';
+import Link from "next/link";
+import { Cpu, Github, Heart } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -15,21 +15,16 @@ export function Footer() {
             <span className="text-sm font-bold">Decision Fatigue Reducer</span>
           </Link>
 
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
-            <Link href="/signup" className="hover:text-foreground transition-colors">Get Started</Link>
+          <p className="text-xs text-muted-foreground">
             <a
-              href="https://github.com"
+              href="https://github.com/blezecon/X0R_AMUHACKS5.0"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors"
+              className="flex items-center gap-2 hover:text-foreground transition-colors"
             >
-              <Github className="h-4 w-4" />
+              <Github className="h-4 w-4 shrink-0" />
+              <span>Made by Team X0R</span>
             </a>
-          </div>
-
-          <p className="text-xs text-muted-foreground flex items-center gap-1">
-            Made with <Heart className="h-3 w-3 text-red-500 fill-red-500" /> by Team X0R &middot; {currentYear}
           </p>
         </div>
       </div>
