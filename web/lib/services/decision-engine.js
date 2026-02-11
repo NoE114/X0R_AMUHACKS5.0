@@ -1,7 +1,6 @@
 import User from '../models/User.js';
 import Decision from '../models/Decision.js';
 import Feedback from '../models/Feedback.js';
-import User from '../models/User.js';
 import { connectDB } from './mongodb.js';
 import {
   getAISuggestion,

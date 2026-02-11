@@ -216,7 +216,7 @@ export async function loginUser(email, password) {
   };
 }
 
-export async function completeOnboarding(userId, { provider, apiKey, profilePhoto, skip, name }) {
+export async function completeOnboarding(userId, { provider, apiKey, profilePhoto, skip, name, onboarding }) {
   await connectDB();
 
   const user = await User.findById(userId);
@@ -248,6 +248,26 @@ export async function completeOnboarding(userId, { provider, apiKey, profilePhot
 
   if (name) {
     user.name = name;
+  }
+
+  if (onboarding) {
+    const {
+      profile,
+      health,
+      work,
+      foodPreferences,
+      clothingPreferences,
+      taskStyle,
+      decisionStyle
+    } = onboarding;
+
+    if (profile) user.profile = profile;
+    if (health) user.health = health;
+    if (work) user.work = work;
+    if (foodPreferences) user.foodPreferences = foodPreferences;
+    if (clothingPreferences) user.clothingPreferences = clothingPreferences;
+    if (taskStyle) user.taskStyle = taskStyle;
+    if (decisionStyle) user.decisionStyle = decisionStyle;
   }
 
   user.onboarded = true;
