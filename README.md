@@ -127,7 +127,16 @@ X0R_AMUHACKS5.0/
 │   ├── package.json              # Dependencies
 │   └── .env.example              # Environment template
 │
-└── mobile/                       # 📱 (Coming soon...)
+└── mobile/                       # 📱 Mobile app scaffold
+    ├── MREADME.md                # Mobile-specific notes
+    ├── package.json              # Mobile dependencies
+    ├── package-lock.json         # Lockfile (npm)
+    ├── add_android.sh            # Add Android platform
+    ├── build_apk.sh              # Build APK
+    ├── build_web.sh              # Build web assets
+    ├── install_deps.sh           # Install dependencies
+    ├── sync_capacitor.sh         # Sync Capacitor
+    └── swiftionicon.png          # App icon
 ```
 
 ## 🚀 Getting Started
@@ -157,13 +166,14 @@ yarn install
 
 ### Step 2: Environment Setup
 
-Create your `.env.local` file:
+Create your `web/.env.local` file (this README only covers the web app env for now):
 
 ```bash
+cd web
 cp .env.example .env.local
 ```
 
-Now edit `.env.local` with your credentials:
+Now edit `web/.env.local` with your credentials:
 
 ```env
 # 🔗 MongoDB Connection (Get from MongoDB Atlas)
@@ -300,6 +310,8 @@ The animated background uses ResizeObserver to prevent constant reflows. If you 
 
 ## 📝 Environment Variables Explained
 
+**Location:** `web/.env.local` (mobile env will be documented later)
+
 ### Required (App won't work without these)
 
 | Variable | Purpose | How to Get |
@@ -366,4 +378,3 @@ Built for **AMUHACKS 5.0 Hackathon** by Team X0R.
 5. **Test on mobile** - The app is fully responsive!
 
 ---
-
