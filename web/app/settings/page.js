@@ -52,7 +52,6 @@ export default function SettingsPage() {
     }
     setToken(storedToken);
     fetchProvider(storedToken, undefined, false, true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   const handleProviderSelect = (providerKey) => {
@@ -232,7 +231,7 @@ export default function SettingsPage() {
   return (
     <main className="flex-1 bg-background/80">
       <section className="relative overflow-hidden pt-16 pb-10">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 overflow-x-hidden">
           <div className="mb-12 flex flex-col gap-4">
             <div className="flex items-center gap-4">
               <Avatar>
@@ -259,8 +258,8 @@ export default function SettingsPage() {
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2 items-stretch">
-            <Card className="h-full flex flex-col">
-              <CardContent className="flex flex-col gap-6 flex-1">
+            <Card className="h-full w-full flex flex-col">
+              <CardContent className="flex flex-col gap-6 flex-1 min-w-0">
                 <div className="flex-1 space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="settings-name">Full name</Label>
@@ -277,7 +276,7 @@ export default function SettingsPage() {
                       <span>Profile photo</span>
                       {photoError && <span className="text-xs text-destructive">{photoError}</span>}
                     </Label>
-                    <div className="flex items-center gap-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                       <label
                         htmlFor="photo-upload"
                         className="flex items-center gap-2 rounded-2xl border border-dashed border-border/70 bg-background/70 px-4 py-3 text-sm font-medium text-foreground transition hover:border-primary"
@@ -307,25 +306,25 @@ export default function SettingsPage() {
                     />
                   </div>
                 </div>
-                <div className="flex items-center justify-between gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <Button
                     onClick={handleProfileSave}
-                    className="flex-shrink-0 rounded-2xl border-none px-6 from-primary to-secondary/80 text-sm font-semibold"
+                    className="shrink-0 rounded-2xl border-none px-6 from-primary to-secondary/80 text-sm font-semibold"
                     disabled={profileStatus === 'loading'}
                   >
                     {profileStatus === 'loading' ? 'Saving…' : 'Save profile'}
                   </Button>
-                  <p className="flex-1 truncate text-xs text-muted-foreground">
+                  <p className="w-full sm:flex-1 truncate text-xs text-muted-foreground">
                     {profileMessage || 'Name and photo power your avatar.'}
                   </p>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="h-full flex flex-col bg-card/80 border border-border/60">
-              <CardContent className="flex flex-col gap-6 flex-1">
+            <Card className="h-full w-full flex flex-col bg-card/80 border border-border/60">
+              <CardContent className="flex flex-col gap-6 flex-1 min-w-0">
                 <div className="flex-1 space-y-6">
-                  <div className="grid gap-3 md:grid-cols-3">
+                  <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                     {Object.entries(PROVIDERS).map(([key, provider]) => {
                       const isSelected = preferredProvider === key;
                       const isActive = activeProvider === key;
@@ -377,15 +376,15 @@ export default function SettingsPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <Button
                     onClick={handleProviderSave}
-                    className="flex-shrink-0 rounded-2xl border-none px-6 from-primary to-secondary/80 text-sm font-semibold"
+                    className="shrink-0 rounded-2xl border-none px-6 from-primary to-secondary/80 text-sm font-semibold"
                     disabled={providerStatus === 'loading'}
                   >
                     {providerStatus === 'loading' ? 'Saving…' : 'Save provider key'}
                   </Button>
-                  <p className="flex-1 truncate text-xs text-muted-foreground">
+                  <p className="w-full sm:flex-1 truncate text-xs text-muted-foreground">
                     {providerMessage || 'Keys are encrypted and never shared.'}
                   </p>
                 </div>

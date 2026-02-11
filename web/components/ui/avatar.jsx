@@ -6,7 +6,7 @@ const Avatar = React.forwardRef(({ className, children, ...props }, ref) => (
   <div
     ref={ref}
     className={cn(
-      'relative inline-flex h-10 w-10 shrink-0 overflow-hidden rounded-full border border-transparent bg-gradient-to-br from-primary/20 via-primary/10 to-transparent shadow-sm shadow-primary/30',
+      'relative inline-flex h-10 w-10 shrink-0 overflow-hidden rounded-full border border-transparent bg-linear-to-br from-primary/20 via-primary/10 to-transparent shadow-sm shadow-primary/30',
       className
     )}
     {...props}
@@ -35,7 +35,7 @@ const AvatarFallback = React.forwardRef(({ children, className, ...props }, ref)
   <span
     ref={ref}
     className={cn(
-      'flex h-full w-full items-center justify-center bg-gradient-to-br from-primary to-primary/50 font-semibold uppercase tracking-widest text-primary-foreground',
+      'flex h-full w-full items-center justify-center bg-linear-to-br from-primary to-primary/50 font-semibold uppercase tracking-widest text-primary-foreground',
       className
     )}
     {...props}

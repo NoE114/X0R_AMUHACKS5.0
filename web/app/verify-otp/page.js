@@ -179,7 +179,7 @@ export default function VerifyOTPPage() {
                   <Label htmlFor="otp-0" className="text-center block">
                     Enter verification code
                   </Label>
-                  <div className="flex justify-center gap-2">
+                  <div className="flex justify-center gap-1.5 sm:gap-2">
                     {otp.map((digit, index) => (
                       <Input
                         key={index}
@@ -187,7 +187,7 @@ export default function VerifyOTPPage() {
                         type="text"
                         inputMode="numeric"
                         maxLength={1}
-                        className="w-12 h-12 text-center text-lg font-semibold"
+                        className="w-10 h-10 sm:w-12 sm:h-12 text-center text-base sm:text-lg font-semibold"
                         value={digit}
                         onChange={(e) => handleChange(index, e.target.value)}
                         onKeyDown={(e) => handleKeyDown(index, e)}

@@ -87,7 +87,7 @@ export function Navbar() {
 
   if (!mounted) {
     return (
-      <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
             <Link href="/" className="flex items-center gap-2">
@@ -119,12 +119,12 @@ export function Navbar() {
   const visibleNavLinks = auth.isLoggedIn ? [] : NAV_LINKS;
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Cpu className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-linear-to-r from-primary to-primary/70 bg-clip-text text-transparent">
               Decision Fatigue Reducer
             </span>
           </Link>
@@ -187,7 +187,7 @@ export function Navbar() {
                   </Button>
                 </Link>
                 <Link href="/signup">
-                  <Button size="sm" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+                  <Button size="sm" className="bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
                     Get Started
                   </Button>
                 </Link>
@@ -253,7 +253,7 @@ export function Navbar() {
                     </Button>
                   </Link>
                   <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
-                    <Button className="w-full bg-gradient-to-r from-primary to-primary/80">
+                    <Button className="w-full bg-linear-to-r from-primary to-primary/80">
                       Get Started
                     </Button>
                   </Link>

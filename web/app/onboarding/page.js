@@ -44,9 +44,12 @@ const fieldLabelClass = 'text-xs uppercase tracking-[0.4em] text-muted-foregroun
 const fieldControlClass = 'w-full rounded-2xl border border-border/70 bg-background/80 px-4 py-3 text-sm font-semibold text-foreground shadow-sm transition focus:border-primary focus:ring-0';
 const selectTriggerClass = 'w-full rounded-2xl border border-border/70 bg-background/80 px-4 py-3 text-sm font-semibold text-foreground shadow-sm transition focus:border-primary focus:ring-0';
 const sectionCardClass = 'space-y-6 rounded-[24px] border border-border/20 bg-transparent p-6 shadow-[0_20px_35px_rgba(15,23,42,0.1)]';
-const pillBaseClass = 'inline-flex items-center justify-center rounded-full border px-3 py-1 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/60';
+const pillBaseClass = 'inline-flex items-center justify-center rounded-full border px-3 py-2 min-h-[40px] text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/60';
 const getPillClass = (active) =>
   `${pillBaseClass} ${active ? 'border-primary bg-primary text-white shadow-lg' : 'border-border/60 bg-background/80 text-foreground hover:border-foreground/70'}`;
+
+const getOptionValue = (option) => (typeof option === 'string' ? option : option.value);
+const getOptionLabel = (option) => (typeof option === 'string' ? option : option.label ?? option.value);
 
 const allergiesOptions = [
   'None',
@@ -113,31 +116,48 @@ const healthGoals = [
   'No specific goal'
 ];
 const activityLevels = [
-  'Sedentary (desk job, minimal exercise)',
-  'Lightly active (light exercise 1-3 days/week)',
-  'Moderately active (exercise 3-5 days/week)',
-  'Very active (intense exercise 6-7 days/week)'
+  { label: 'Sedentary', value: 'Sedentary (desk job, minimal exercise)' },
+  { label: 'Lightly active', value: 'Lightly active (light exercise 1-3 days/week)' },
+  { label: 'Moderately active', value: 'Moderately active (exercise 3-5 days/week)' },
+  { label: 'Very active', value: 'Very active (intense exercise 6-7 days/week)' }
 ];
 const eatingPatterns = [
-  '3 regular meals',
-  '5-6 small meals (frequent snacker)',
-  '2 meals + snacks',
-  'Intermittent fasting',
-  'Irregular/varies'
+  { label: '3 regular meals', value: '3 regular meals' },
+  { label: '5-6 small meals', value: '5-6 small meals (frequent snacker)' },
+  { label: '2 meals + snacks', value: '2 meals + snacks' },
+  { label: 'Intermittent fasting', value: 'Intermittent fasting' },
+  { label: 'Irregular/varies', value: 'Irregular/varies' }
 ];
 
 const workScheduleOptions = [
-  '9 AM - 5 PM (standard)',
-  '10 AM - 6 PM',
-  'Flexible hours',
-  'Night shift',
-  'Freelance/variable',
-  'Student schedule',
-  'Unemployed/Retired'
+  { label: '9 AM - 5 PM', value: '9 AM - 5 PM (standard)' },
+  { label: '10 AM - 6 PM', value: '10 AM - 6 PM' },
+  { label: 'Flexible hours', value: 'Flexible hours' },
+  { label: 'Night shift', value: 'Night shift' },
+  { label: 'Freelance/variable', value: 'Freelance/variable' },
+  { label: 'Student schedule', value: 'Student schedule' },
+  { label: 'Unemployed/Retired', value: 'Unemployed/Retired' }
 ];
-const workLocationOptions = ['Home (WFH/online classes)', 'Office/Campus', 'Hybrid (3-4 days office)', 'Hybrid (1-2 days office)'];
-const commuteOptions = ['No commute (WFH)', '0-15 minutes', '15-30 minutes', '30-60 minutes', '60+ minutes'];
-const lunchBreakOptions = ['30 minutes', '45 minutes', '1 hour', 'More than 1 hour', 'Flexible/no fixed time'];
+const workLocationOptions = [
+  { label: 'Home (WFH)', value: 'Home (WFH/online classes)' },
+  { label: 'Office/Campus', value: 'Office/Campus' },
+  { label: 'Hybrid (3-4 days)', value: 'Hybrid (3-4 days office)' },
+  { label: 'Hybrid (1-2 days)', value: 'Hybrid (1-2 days office)' }
+];
+const commuteOptions = [
+  { label: 'No commute (WFH)', value: 'No commute (WFH)' },
+  { label: '0-15 minutes', value: '0-15 minutes' },
+  { label: '15-30 minutes', value: '15-30 minutes' },
+  { label: '30-60 minutes', value: '30-60 minutes' },
+  { label: '60+ minutes', value: '60+ minutes' }
+];
+const lunchBreakOptions = [
+  { label: '30 minutes', value: '30 minutes' },
+  { label: '45 minutes', value: '45 minutes' },
+  { label: '1 hour', value: '1 hour' },
+  { label: '1+ hours', value: 'More than 1 hour' },
+  { label: 'Flexible/no fixed', value: 'Flexible/no fixed time' }
+];
 const dailyScheduleOptions = [
   'Meetings/classes heavy',
   'Deep focus work',
@@ -147,51 +167,72 @@ const dailyScheduleOptions = [
 ];
 
 const budgetOptions = [
-  '₹50-100 (very budget)',
-  '₹100-200 (budget-conscious)',
-  '₹200-300 (moderate)',
-  '₹300-500 (comfortable)',
-  '₹500+ (flexible)'
+  { label: '₹50-100', value: '₹50-100 (very budget)' },
+  { label: '₹100-200', value: '₹100-200 (budget-conscious)' },
+  { label: '₹200-300', value: '₹200-300 (moderate)' },
+  { label: '₹300-500', value: '₹300-500 (comfortable)' },
+  { label: '₹500+', value: '₹500+ (flexible)' }
 ];
 const cookingHabitOptions = [
-  'Never cook (always eat out/order)',
-  'Rarely cook (1-2 times/week)',
-  'Sometimes cook (3-4 times/week)',
-  'Often cook (5-6 times/week)',
-  'Always cook at home'
+  { label: 'Never cook', value: 'Never cook (always eat out/order)' },
+  { label: 'Rarely cook', value: 'Rarely cook (1-2 times/week)' },
+  { label: 'Sometimes cook', value: 'Sometimes cook (3-4 times/week)' },
+  { label: 'Often cook', value: 'Often cook (5-6 times/week)' },
+  { label: 'Always cook', value: 'Always cook at home' }
 ];
 
 const weatherSensitivityOptions = [
-  'Very sensitive (layer up/down frequently)',
-  'Moderately sensitive',
-  'Not very sensitive (same clothes most temps)'
+  { label: 'Very sensitive', value: 'Very sensitive (layer up/down frequently)' },
+  { label: 'Moderately sensitive', value: 'Moderately sensitive' },
+  { label: 'Not very sensitive', value: 'Not very sensitive (same clothes most temps)' }
 ];
 const dressCodeOptions = [
-  'Very formal (suit/tie, formal attire)',
-  'Business casual',
-  'Smart casual',
-  'Casual (anything goes)',
-  'Uniform required',
-  'Not applicable'
+  { label: 'Very formal', value: 'Very formal (suit/tie, formal attire)' },
+  { label: 'Business casual', value: 'Business casual' },
+  { label: 'Smart casual', value: 'Smart casual' },
+  { label: 'Casual', value: 'Casual (anything goes)' },
+  { label: 'Uniform required', value: 'Uniform required' },
+  { label: 'Not applicable', value: 'Not applicable' }
 ];
 
-const energyPeakOptions = ['Morning person (5 AM - 11 AM)', 'Midday peak (11 AM - 3 PM)', 'Afternoon (3 PM - 7 PM)', 'Night owl (7 PM - midnight)', 'Late night (after midnight)'];
-const priorityOptions = ['Urgency first (closest deadline)', 'Importance first (highest impact)', 'Easiest first (quick wins)', 'Hardest first (eat the frog)', 'Mix it up based on mood'];
-const workBlockOptions = ['Short bursts (15-25 min, Pomodoro style)', 'Medium blocks (45-60 min)', 'Long blocks (2+ hours deep work)', 'Varies by task'];
-const multitaskingOptions = ['Prefer multitasking', 'Prefer single-tasking (one thing at a time)', 'Depends on task type'];
+const energyPeakOptions = [
+  { label: 'Morning (5-11 AM)', value: 'Morning person (5 AM - 11 AM)' },
+  { label: 'Midday (11-3 PM)', value: 'Midday peak (11 AM - 3 PM)' },
+  { label: 'Afternoon (3-7 PM)', value: 'Afternoon (3 PM - 7 PM)' },
+  { label: 'Night (7-midnight)', value: 'Night owl (7 PM - midnight)' },
+  { label: 'Late night', value: 'Late night (after midnight)' }
+];
+const priorityOptions = [
+  { label: 'Urgency first', value: 'Urgency first (closest deadline)' },
+  { label: 'Importance first', value: 'Importance first (highest impact)' },
+  { label: 'Easiest first', value: 'Easiest first (quick wins)' },
+  { label: 'Hardest first', value: 'Hardest first (eat the frog)' },
+  { label: 'Mix it up', value: 'Mix it up based on mood' }
+];
+const workBlockOptions = [
+  { label: 'Short bursts (15-25)', value: 'Short bursts (15-25 min, Pomodoro style)' },
+  { label: 'Medium blocks (45-60)', value: 'Medium blocks (45-60 min)' },
+  { label: 'Long blocks (2+ hrs)', value: 'Long blocks (2+ hours deep work)' },
+  { label: 'Varies by task', value: 'Varies by task' }
+];
+const multitaskingOptions = [
+  { label: 'Prefer multitasking', value: 'Prefer multitasking' },
+  { label: 'Prefer single-tasking', value: 'Prefer single-tasking (one thing at a time)' },
+  { label: 'Depends on task', value: 'Depends on task type' }
+];
 
 const budgetConsciousnessOptions = [
-  'Very strict (track every rupee)',
-  'Moderately careful',
-  'Flexible (don\'t stress about small amounts)',
-  'Not concerned about budget'
+  { label: 'Very strict', value: 'Very strict (track every rupee)' },
+  { label: 'Moderately careful', value: 'Moderately careful' },
+  { label: 'Flexible', value: 'Flexible (don\'t stress about small amounts)' },
+  { label: 'Not concerned', value: 'Not concerned about budget' }
 ];
 const timeAvailabilityOptions = ['Always rushed', 'Usually have some time', 'Generally relaxed schedule', 'Varies day to day'];
 const decisionConfidenceOptions = [
-  'Very decisive (make decisions quickly)',
-  'Moderately decisive',
-  'Often second-guess myself',
-  'Very indecisive (struggle with choices)'
+  { label: 'Very decisive', value: 'Very decisive (make decisions quickly)' },
+  { label: 'Moderately decisive', value: 'Moderately decisive' },
+  { label: 'Often second-guess', value: 'Often second-guess myself' },
+  { label: 'Very indecisive', value: 'Very indecisive (struggle with choices)' }
 ];
 
 export default function OnboardingPage() {
@@ -456,7 +497,7 @@ export default function OnboardingPage() {
                 onClick={() => setProviderSection((prev) => ({ ...prev, provider: option.value }))}
                 className={`flex h-full flex-col justify-between rounded-2xl border p-4 text-left transition hover:border-primary/70 ${
                   isSelected
-                    ? 'border-primary bg-gradient-to-br from-primary/20 to-primary/10 shadow-lg'
+                    ? 'border-primary bg-linear-to-br from-primary/20 to-primary/10 shadow-lg'
                     : 'border-border/60 bg-background/70'
                 }`}
               >
@@ -601,8 +642,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {['Male', 'Female', 'Other', 'Prefer not to say'].map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -634,8 +675,8 @@ export default function OnboardingPage() {
                       'Homemaker',
                       'Other'
                     ].map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -692,8 +733,8 @@ export default function OnboardingPage() {
                 </SelectTrigger>
                 <SelectContent>
                   {['Live alone', 'With roommates', 'With family', 'With partner'].map((option) => (
-                    <SelectItem key={option} value={option}>
-                      {option}
+                    <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                      {getOptionLabel(option)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -721,8 +762,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {dietaryTypes.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -744,8 +785,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {healthGoals.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -769,8 +810,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {activityLevels.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -792,8 +833,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {eatingPatterns.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -847,8 +888,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {workScheduleOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -870,8 +911,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {workLocationOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -895,8 +936,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {commuteOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -918,8 +959,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {lunchBreakOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -960,8 +1001,8 @@ export default function OnboardingPage() {
                 </SelectTrigger>
                 <SelectContent>
                   {dailyScheduleOptions.map((option) => (
-                    <SelectItem key={option} value={option}>
-                      {option}
+                    <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                      {getOptionLabel(option)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -1011,8 +1052,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {budgetOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -1034,8 +1075,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {cookingHabitOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -1060,7 +1101,7 @@ export default function OnboardingPage() {
                 }
               />
             </div>
-            <div className="grid gap-4 md:grid-cols-3">
+<div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
               {['breakfast', 'lunch', 'dinner'].map((meal) => (
                 <div key={meal} className="space-y-3">
                   <Label className={fieldLabelClass}>{meal.charAt(0).toUpperCase() + meal.slice(1)}</Label>
@@ -1117,8 +1158,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {weatherSensitivityOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -1140,8 +1181,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {dressCodeOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -1195,8 +1236,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {energyPeakOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -1218,8 +1259,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {priorityOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -1243,8 +1284,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {workBlockOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -1266,8 +1307,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {multitaskingOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -1332,8 +1373,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {budgetConsciousnessOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -1355,8 +1396,8 @@ export default function OnboardingPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {timeAvailabilityOptions.map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                        {getOptionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -1379,8 +1420,8 @@ export default function OnboardingPage() {
                 </SelectTrigger>
                 <SelectContent>
                   {decisionConfidenceOptions.map((option) => (
-                    <SelectItem key={option} value={option}>
-                      {option}
+                    <SelectItem key={getOptionValue(option)} value={getOptionValue(option)}>
+                      {getOptionLabel(option)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -1395,14 +1436,14 @@ export default function OnboardingPage() {
 
   if (!token) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-muted/30">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-background to-muted/30">
         <ShieldCheck className="h-10 w-10 text-primary animate-pulse" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary/20 via-background to-muted/30 px-4 py-12 text-foreground">
+    <div className="min-h-screen bg-linear-to-b from-primary/20 via-background to-muted/30 px-4 py-12 text-foreground">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-2 sm:px-4">
         {createSectionHeader()}
 
