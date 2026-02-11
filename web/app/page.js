@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import DarkVeil from '@/components/DarkVeil';
 import {
   Cpu,
   Zap,
@@ -108,6 +109,18 @@ export default function LandingPage() {
     <main className="flex-1">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-linear-to-b from-primary/5 via-background to-background py-20 md:py-32">
+        <div className="absolute inset-x-0 top-0 -z-10">
+          <div style={{ width: '100%', height: '600px', position: 'relative' }}>
+            <DarkVeil
+              hueShift={0}
+              noiseIntensity={0}
+              scanlineIntensity={0}
+              speed={1}
+              scanlineFrequency={0}
+              warpAmount={0}
+            />
+          </div>
+        </div>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8">
