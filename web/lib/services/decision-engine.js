@@ -9,8 +9,7 @@ import {
 import {
   calculateConfidence,
   updatePreferences,
-  getTopOptions,
-  blendOptions
+  getTopOptions
 } from '../utils/learning.js';
 
 export async function getRecommendation(userId, type, context, question) {
@@ -37,6 +36,14 @@ export async function getRecommendation(userId, type, context, question) {
     decisionStyle: user.decisionStyle || null,
   };
 
+  const recentDecisions = await Decision.find({ userId, type })
+    .sort({ createdAt: -1 })
+    .limit(7)
+    .lean();
+  const recentOptions = recentDecisions.flatMap((decision) => decision.options || []);
+  const recentChosen = recentDecisions.map((decision) => decision.chosenOption).filter(Boolean);
+  const recentSuggestions = Array.from(new Set([...recentChosen, ...recentOptions])).slice(0, 12);
+
   // Get AI suggestion - let errors propagate for proper user feedback
   const aiSuggestionData = await getAISuggestion(
     userId,
@@ -44,15 +51,44 @@ export async function getRecommendation(userId, type, context, question) {
     context,
     preferences[type] || {},
     user.preferredProvider,
-    userData
+    userData,
+    recentSuggestions
   );
 
-  // Get fallback options for blending
   const fallbackOptions = getFallbackOptions(type);
-  const userTopOptions = getTopOptions(preferences, type, 2);
+  const userTopOptions = getTopOptions(preferences, type, 4);
 
-  // Blend options: AI suggestion first, then user prefs, then fallbacks
-  const options = blendOptions(aiSuggestionData?.suggestion, fallbackOptions, userTopOptions);
+  const recentlyChosenHigh = recentDecisions
+    .filter((decision) => decision.rating >= 4 && decision.chosenOption)
+    .map((decision) => decision.chosenOption);
+  const allowRepeat = recentlyChosenHigh.length ? recentlyChosenHigh[0] : null;
+
+  const normalize = (value) => value?.toLowerCase?.().trim();
+  const isRecent = (value) => recentOptions.some((opt) => normalize(opt) === normalize(value));
+
+  const optionsSet = new Set();
+  const addOption = (value) => {
+    if (!value) return;
+    if (optionsSet.has(value)) return;
+    if (isRecent(value) && value !== allowRepeat) return;
+    optionsSet.add(value);
+  };
+
+  addOption(aiSuggestionData?.suggestion);
+  userTopOptions.forEach(addOption);
+
+  for (const opt of fallbackOptions) {
+    if (optionsSet.size >= 4) break;
+    addOption(opt);
+  }
+
+  // Ensure we always return 4 options
+  for (const opt of fallbackOptions) {
+    if (optionsSet.size >= 4) break;
+    optionsSet.add(opt);
+  }
+
+  const options = Array.from(optionsSet).slice(0, 4);
 
   // Calculate confidence
   const primaryOption = options[0];

@@ -114,12 +114,18 @@ function buildUserProfileContext(userData) {
   return parts.length > 0 ? parts.join('\n') : '';
 }
 
-function getPrompt(type, context, userPreferences, userData) {
+function getPrompt(type, context, userPreferences, userData, recentSuggestions = []) {
   const prefsString = Object.entries(userPreferences || {})
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
     .map(([opt, score]) => `${opt} (${(score * 100).toFixed(0)}%)`)
     .join(', ') || 'None yet';
+
+  const recentString = recentSuggestions.length
+    ? `Avoid repeating any of these recent suggestions:
+- ${recentSuggestions.join('\n- ')}
+`
+    : '';
 
   const profileContext = buildUserProfileContext(userData);
   const profileSection = profileContext
@@ -134,12 +140,14 @@ Context:
 - Time: ${context.time || 'current'}
 ${profileSection}
 User's past favorites: ${prefsString}
+${recentString}
 
 Suggest ONE meal option that:
 1. Fits the weather and time of day
 2. Respects dietary restrictions and allergies
 3. Matches cuisine preferences and budget
 4. Is specific and actionable (not just "pasta" but "Creamy garlic pasta with spinach")
+5. Feels fresh compared to recent suggestions
 
 Respond with ONLY the meal name/description, nothing else. Keep it under 10 words.`;
   } else if (type === 'task') {
@@ -150,12 +158,14 @@ Context:
 - Weather: ${context.weather || 'neutral'}
 ${profileSection}
 User's past favorites: ${prefsString}
+${recentString}
 
 Suggest ONE daily task that:
 1. Matches current energy level and time of day
 2. Fits the user's work style and schedule
 3. Takes 10-30 minutes
 4. Is specific and actionable
+5. Is not a repeat of recent suggestions
 
 Respond with ONLY the task description, nothing else. Keep it under 12 words.`;
   } else if (type === 'clothing') {
@@ -166,12 +176,14 @@ Context:
 - Time: ${context.time || 'current'}
 ${profileSection}
 User's past favorites: ${prefsString}
+${recentString}
 
 Suggest ONE outfit idea that:
 1. Fits the weather conditions
 2. Matches the user's style, dress code, and color preferences
 3. Is specific and wearable
 4. Prioritizes comfort based on user preference
+5. Is different from recent outfits
 
 Respond with ONLY the outfit description, nothing else. Keep it under 12 words.`;
   }
@@ -229,7 +241,7 @@ function parseAIError(error, provider) {
   );
 }
 
-export async function getAISuggestion(userId, type, context, userPreferences, preferredProvider = 'openrouter', userData = null) {
+export async function getAISuggestion(userId, type, context, userPreferences, preferredProvider = 'openrouter', userData = null, recentSuggestions = []) {
   const provider = preferredProvider || 'openrouter';
   const apiKey = await getDecryptedApiKey(userId, provider);
 
@@ -237,7 +249,7 @@ export async function getAISuggestion(userId, type, context, userPreferences, pr
     throw new MissingApiKeyError('Connect your AI provider API key in Settings to get personalized recommendations.');
   }
 
-  const prompt = getPrompt(type, context, userPreferences, userData);
+  const prompt = getPrompt(type, context, userPreferences, userData, recentSuggestions);
   let suggestion = null;
 
   if (provider === 'openrouter') {

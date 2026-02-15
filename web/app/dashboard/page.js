@@ -423,7 +423,7 @@ export default function DashboardPage() {
                 )}
 
                 {!historyLoading && historyItems.length > 0 && (
-                  <div className="space-y-3 max-h-125 overflow-y-auto pr-1">
+                  <div className="space-y-3 max-h-90 overflow-y-auto pr-1">
                     {historyItems.map((item) => (
                       <div
                         key={item.decisionId}
